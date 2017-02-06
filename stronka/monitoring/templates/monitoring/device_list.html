@@ -1,0 +1,25 @@
+{% load staticfiles %}
+<html>
+    <head>
+        <title>monitoring</title>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="{% static 'css/monitoring.css' %}">
+
+    </head>
+    <body>
+        <div>
+            <h1> progress madafaka</h1>
+        </div>
+
+        {% for device in devices %}
+        <div>
+            <p>
+                <a href="{{ device }}">{{ device }}</a>
+                {{ device.dev_name }}
+            </p>
+        </div>
+        {% endfor %}
+
+    </body>
+</html>
