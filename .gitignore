@@ -1,0 +1,8 @@
+tags
+*.pyc
+__pycache__
+myvenv
+db.sqlite3
+baza
+.DS_Store
+.idea
