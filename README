@@ -1,0 +1,6 @@
+This is monitoring program for Ubiquiti devices (hopefully for more in the future)
+
+Must have python packages:
+	parallel-ssh
+	nmap
+	django
