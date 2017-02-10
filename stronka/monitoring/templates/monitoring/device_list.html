@@ -1,18 +1,21 @@
 {% load staticfiles %}
+{% load render_table from django_tables2 %}
+{% load static %}
 <html>
     <head>
         <title>monitoring</title>
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="{% static 'css/monitoring.css' %}">
+        <link rel="stylesheet" href="{% static 'django_tables2/themes/paleblue/css/screen.css' %}" />
 
     </head>
     <body>
         <div>
             <h1> progress madafaka</h1>
         </div>
-
-        {% for device in devices %}
+        {% render_table devices %}
+        <!-- {% for device in devices %}
         <div>
             <p>
                 <a href="{{ device }}">{{ device }}</a>
@@ -20,6 +23,6 @@
             </p>
         </div>
         {% endfor %}
-
+-->
     </body>
 </html>
