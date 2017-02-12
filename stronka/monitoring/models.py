@@ -9,6 +9,7 @@ class Device(models.Model):
     dev_name = models.CharField(max_length = 100, null=True)
     firmware = models.CharField(max_length = 100, null=True)
     wireless_mode = models.CharField(max_length = 100, null=True)
+    ssid = models.CharField(max_length = 100, null=True)
     signal = models.IntegerField(null=True)
     ccq = models.IntegerField(null=True)
     air_q =models.IntegerField(null=True)
