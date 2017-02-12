@@ -41,3 +41,5 @@ def ParallelSSH(ip_table, other_config, command):
             
         c.execute("UPDATE monitoring_device SET dev_name=?, firmware=?, product=?  WHERE ip=?", (device['dev_name'], device['firmware'], device['product'], node))     
         data_base.commit()
+
+ParallelSSH('dfd', 4, 7)
