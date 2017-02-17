@@ -1,18 +1,16 @@
 from pssh.pssh_client import ParallelSSHClient
 from pssh.exceptions import AuthenticationException, \
   UnknownHostException, ConnectionErrorException
+import sqlite3
 
-host_config = { 'host1' : {'user': 'user1', 'password': 'pass',
-                           'port': 2222},
-                'host2' : {'user': 'user2', 'password': 'pass',
-                           'port': 2223},
-                }
-for key in host_config:
-    print(key)
-    print(host_config[key]['password'])
+data_base = sqlite3.connect('../stronka/db.sqlite3')
+c = data_base.cursor()
+c.execute('SELECT ip, login, password, port FROM monitoring_device')
+config = c.fetchall()
 
-dictionary = {'user': 'user5', 'password': 'haselko', 'port': 9922}
-host_config['23443'] = dictionary
-print(host_config)
-#client = ParallelSSHClient(lista, user='', password='', port=22, num_retries=1)
-#output = client.run_command('mca-status', stop_on_errors=False)
+host_conf = {}
+for ip in config:
+    host_conf[ip[0]] = {'user': ip[1], 'password': ip[2], 'port': 9922}
+
+client = ParallelSSHClient(hosts=host_conf.keys(), user='root', password='Kotka09', port=9922, num_retries=1)
+print(client.run_command('mca-status', stop_on_errors=False))
