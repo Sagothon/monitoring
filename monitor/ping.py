@@ -11,7 +11,6 @@ for i in ip_list:
     file.write(i[0] + '\n')
     lista += i[0] + ' '
 
-
 nm = nmap.PortScanner()
 scan_result = nm.scan(hosts=lista, arguments='-sP -n -v')
 
