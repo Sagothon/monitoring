@@ -16,10 +16,9 @@ for ip in config:
     password = "\"" + ip[2] + "\""
     port = "9922"
 
-    command = "sshpass -p %s scp -P %s -o StrictHostKeyChecking=no root@%s:/tmp/system.cfg /home/karol/programy/monitoring/back/%s" %(password, port, ip_add, ip_add)
+    command = "sshpass -p %s scp -P %s -o StrictHostKeyChecking=no -oKexAlgorithms=+diffie-hellman-group1-sha1 root@%s:/tmp/system.cfg /home/karol/programy/monitoring/back/%s" %(password, port, ip_add, ip_add)
     p = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
     (output, err) = p.communicate()
-
 
 #command = "sshpass -p \"Kotka09\" scp -P 9922 root@192.168.5.100:/tmp/system.cfg /home/karol/programy/monitoring/back/conf"
 
