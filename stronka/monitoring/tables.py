@@ -6,4 +6,4 @@ class DevicesTable(tables.Table):
         model = Device
         # add class="paleblue" to <table> tag
         attrs = {'class': 'paleblue'}
-        exclude = {'port', 'password', 'login', 'id', 'air_q', 'air_c', 'ping'}
+        exclude = {'port', 'password', 'login', 'id', 'air_q', 'air_c', 'ping', 'freq'}
