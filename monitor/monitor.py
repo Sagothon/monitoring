@@ -43,3 +43,4 @@ for node in output:
         device['exception'] = 'failure'
         c.execute("UPDATE monitoring_device SET error=? WHERE ip=?", (device['exception'], node))     
 data_base.commit()
+data_base.close()
