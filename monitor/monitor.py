@@ -15,7 +15,6 @@ for ip in config:
 
 client = ParallelSSHClient(hosts=host_configurations.keys(), host_config=host_configurations, num_retries=1)
 output = client.run_command('mca-status', stop_on_errors=False)
-print(output)
 
 for node in output:
     device = {'dev_name':'', 'firmware':'', 'wireless_mode':'', 'signal':0, 'ccq':0, 'air_q':0, 'air_c':0, 'freq':0, 'uptime':0, 'product':'', 'exception':''}
