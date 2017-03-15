@@ -15,10 +15,10 @@ class Device(models.Model):
     air_q =models.IntegerField(null=True, blank=True)
     air_c = models.IntegerField(null=True, blank=True)
     freq = models.IntegerField(null=True, blank=True)
-    uptime = models.FloatField(null=True, blank=True)
+    uptime = models.CharField(max_length = 100, null=True, blank=True)
     product = models.CharField(max_length = 100, null=True, blank=True)
     last_seen = models.CharField(max_length = 100, null=True, blank=True)
-    ping = models.CharField(max_length = 100, null=True, blank=True)
+    ping = models.IntegerField(null=True, blank=True)
     error = models.CharField(max_length = 100, null=True, blank=True)
 
     def publish(self):

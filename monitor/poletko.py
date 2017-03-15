@@ -1,16 +1,27 @@
-from pssh.pssh_client import ParallelSSHClient
-from pssh.exceptions import AuthenticationException, \
-  UnknownHostException, ConnectionErrorException
 import sqlite3
+import nmap
 
 data_base = sqlite3.connect('../stronka/db.sqlite3')
 c = data_base.cursor()
-c.execute('SELECT ip, login, password, port FROM monitoring_device')
-config = c.fetchall()
+c.execute('SELECT ip FROM monitoring_device')
+ip_list = c.fetchall()
+lista=''
+file = open('ip_list', 'w+')
+for i in ip_list:
+    file.write(i[0] + '\n')
+    lista += i[0] + ' '
 
-host_conf = {}
-for ip in config:
-    host_conf[ip[0]] = {'user': ip[1], 'password': ip[2], 'port': 9922}
+nm = nmap.PortScanner()
+scan_result = nm.scan(hosts=lista, arguments='-sP -n -v')
 
-client = ParallelSSHClient(hosts=host_conf.keys(), user='', password='', port=9922, num_retries=1)
-print(client.run_command('mca-status', stop_on_errors=False))
+for ip in scan_result['scan']:
+    if 'down' in scan_result['scan'][ip]['status']['state']:
+        print(ip)
+        c.execute("SELECT ping FROM monitoring_device WHERE ip=?", (ip,))
+        print(c.fetchall()[0][0])
+        #c.execute("UPDATE monitoring_device SET status=?, ping=? WHERE ip=?", ('down', ip))
+    #else:
+        #c.execute("UPDATE monitoring_device SET status=?, ping=? WHERE ip=?", ('up', ip))
+
+data_base.commit()
+data_base.close()
