@@ -13,7 +13,7 @@ def ubnt_discovery(networks_to_scan):
     for ip_address in scan_result['scan']:
         if 'open' in scan_result['scan'][ip_address]['udp'][10001]['state']:
 
-            c.execute('insert into monitoring_device(ip, login, password) values(?, ?, ?)', (str(ip_address), '', ''))
+            c.execute('insert into monitoring_device(ip, login, password, port) values(?, ?, ?, ?)', (str(ip_address), 'root', 'Kotka09', 9922))
             data_base.commit()
             file.write('%s\n' % str(ip_address))
 

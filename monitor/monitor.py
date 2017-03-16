@@ -11,7 +11,7 @@ config = c.fetchall()
 host_configurations = {}
 
 for ip in config:
-    host_configurations[ip[0]] = {'user': ip[1], 'password': ip[2], 'port': 9922}
+    host_configurations[ip[0]] = {'user': ip[1], 'password': ip[2], 'port': ip[3]}
 
 client = ParallelSSHClient(hosts=host_configurations.keys(), host_config=host_configurations, num_retries=1)
 output = client.run_command('mca-status', stop_on_errors=False)
