@@ -5,7 +5,7 @@ import smtplib
 from email.mime.text import MIMEText
 
 def error_email(message):
-    # Create a text/plain message
+    # Createf a text/plain message
     msg = MIMEText(message, 'plain')
 
     me = 'awaria@wer.pl'

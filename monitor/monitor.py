@@ -2,6 +2,7 @@ from pssh.pssh_client import ParallelSSHClient
 from pssh.exceptions import AuthenticationException, \
   UnknownHostException, ConnectionErrorException
 import sqlite3
+from datetime import datetime, timedelta
 
 data_base = sqlite3.connect('../stronka/db.sqlite3')
 c = data_base.cursor()
@@ -28,6 +29,7 @@ for node in output:
             if 'ccq' in line:
                 device['ccq'] = int(float(line.split('=')[1])/10)
             if 'uptime' in line:
+                seconds = int(line.split('=')[1])
                 device['uptime'] = int(line.split('=')[1])/86400
             if 'deviceName' in line:
                 line2 = line.split(',')
