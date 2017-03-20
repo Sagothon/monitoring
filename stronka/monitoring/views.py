@@ -7,10 +7,14 @@ from .forms import ConfigForm
 from django.http import HttpResponseRedirect
 
 def dev_table(request):
-    table = DevicesTable(Device.objects.all())
-    RequestConfig(request).configure(table)
-    table.paginate(page=request.GET.get('page', 1), per_page=500)
-    return render(request, 'monitoring/device_list.html', {'table': table})
+
+    if request.method == 'POST':
+        return HttpResponseRedirect('/')
+    else:
+        table = DevicesTable(Device.objects.all())
+        RequestConfig(request).configure(table)
+        table.paginate(page=request.GET.get('page', 1), per_page=500)
+        return render(request, 'monitoring/device_list.html', {'table': table})
 
 def configuration(request):
     if request.method == 'POST':
