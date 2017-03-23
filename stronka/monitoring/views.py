@@ -5,7 +5,9 @@ from django_tables2 import RequestConfig
 from .tables import DevicesTable
 from .forms import ConfigForm
 from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def dev_table(request):
 
     if request.method == 'POST':
