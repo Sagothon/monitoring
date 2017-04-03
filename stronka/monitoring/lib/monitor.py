@@ -4,19 +4,15 @@ from pssh.exceptions import AuthenticationException, \
 import sqlite3
 from datetime import datetime, timedelta
 
-data_base = sqlite3.connect('../stronka/db.sqlite3')
+data_base = sqlite3.connect('../../db.sqlite3')
 c = data_base.cursor()
 c.execute('SELECT ip, login, password, port FROM monitoring_device')
 config = c.fetchall()
-
 host_configurations = {}
-
 for ip in config:
     host_configurations[ip[0]] = {'user': ip[1], 'password': ip[2], 'port': ip[3]}
-
 client = ParallelSSHClient(hosts=host_configurations.keys(), host_config=host_configurations, num_retries=1)
 output = client.run_command('mca-status', stop_on_errors=False)
-
 for node in output:
     device = {'dev_name':'', 'firmware':'', 'wireless_mode':'', 'signal':0, 'ccq':0, 'air_q':0, 'air_c':0, 'freq':0, 'uptime':0, 'product':'', 'exception':''}
     if str(output[node]['exception']) == 'None':
