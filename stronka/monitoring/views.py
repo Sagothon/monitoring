@@ -6,6 +6,11 @@ from .tables import DevicesTable
 from .forms import ConfigForm
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+import subprocess
+from .lib.discover import ubnt_discovery
+
+def pole():
+    print('dfddfd')
 
 @login_required
 def dev_table(request):
@@ -22,6 +27,12 @@ def configuration(request):
     if request.method == 'POST':
         form = ConfigForm(request.POST)
         if form.is_valid():
+            data = form.cleaned_data
+            print(data)
+            pole()
+            p = subprocess.Popen("touch ./ct", stdout=subprocess.PIPE, shell=True) #zrobić uruchamienie skryptu konfiguracyjnego
+            (output, err) = p.communicate()
+            ubnt_discovery(data)
             return HttpResponseRedirect('/')
     else:
         form = ConfigForm()
