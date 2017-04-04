@@ -22,16 +22,12 @@ def dev_table(request):
         RequestConfig(request).configure(table)
         table.paginate(page=request.GET.get('page', 1), per_page=500)
         return render(request, 'monitoring/device_list.html', {'table': table})
-
+@login_required
 def configuration(request):
     if request.method == 'POST':
         form = ConfigForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            print(data)
-            pole()
-            p = subprocess.Popen("touch ./ct", stdout=subprocess.PIPE, shell=True) #zrobić uruchamienie skryptu konfiguracyjnego
-            (output, err) = p.communicate()
             ubnt_discovery(data)
             return HttpResponseRedirect('/')
     else:
