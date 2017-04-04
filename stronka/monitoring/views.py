@@ -22,6 +22,7 @@ def dev_table(request):
         RequestConfig(request).configure(table)
         table.paginate(page=request.GET.get('page', 1), per_page=500)
         return render(request, 'monitoring/device_list.html', {'table': table})
+        
 @login_required
 def configuration(request):
     if request.method == 'POST':
