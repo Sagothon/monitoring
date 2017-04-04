@@ -8,13 +8,19 @@
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="{% static 'css/monitoring.css' %}">
         <link rel="stylesheet" href="{% static 'django_tables2/themes/paleblue/css/screen.css' %}" />
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
         <script>
-            $(document).ready(function(){
-                $("buton").click(function(){
-                    $("th").hide();
+
+        $(document).ready(function(){
+            $("button").click(function(){
+                var checked_ip = new Array();
+
+                $('input[name="cBox[]"]:checked').each(function() {
+                checked_ip.push(this.value);
                 });
-            });
+                alert(checked_ip);
+                });   
+        });
         </script>
 
     </head>
