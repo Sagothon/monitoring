@@ -9,13 +9,10 @@ from django.contrib.auth.decorators import login_required
 import subprocess
 from .lib.discover import ubnt_discovery
 
-def pole():
-    print('dfddfd')
-
 @login_required
 def dev_table(request):
-
     if request.method == 'POST':
+        print(request.POST.getlist('cBox'))
         return HttpResponseRedirect('/')
     else:
         table = DevicesTable(Device.objects.all())
