@@ -9,6 +9,13 @@
         <link rel="stylesheet" href="{% static 'css/monitoring.css' %}">
         <link rel="stylesheet" href="{% static 'django_tables2/themes/paleblue/css/screen.css' %}" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                $("buton").click(function(){
+                    $("th").hide();
+                });
+            });
+        </script>
 
     </head>
     <body>
@@ -16,6 +23,7 @@
             <h1>Monitoring</h1>
         </div>
 	<a href="/admin/logout/">LOG OUT</a>
+    <button>Click me!</button>
         <form action="/" method="post">
         <input type="submit" value="Submit" />
         {% csrf_token %}
