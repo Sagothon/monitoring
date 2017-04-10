@@ -13,7 +13,7 @@ def error_email(message):
     msg['Subject'] = 'Awaria'
     msg['From'] = me
     msg['To'] = you
-
+    return message
     s = smtplib.SMTP('localhost')
     s.sendmail(me, [you], msg.as_string())
     s.quit()
@@ -28,16 +28,21 @@ for i in ip_list:
     lista += i[0] + ' '
 nm = nmap.PortScanner()
 scan_result = nm.scan(hosts=lista, arguments='-sP -n -v')
+
 error_message = "UWAGA!!! awarii uległy następujace urządzenia: "
 error_count = 0
 for ip in scan_result['scan']:
     if 'down' in scan_result['scan'][ip]['status']['state']:
         c.execute("SELECT ping FROM monitoring_device WHERE ip=?", (ip,))
-        down_counter = c.fetchone()[0]
-        if down_counter == None:
+        down_counter = int(c.fetchone()[0])
+        print(ip)
+        print(down_counter)
+        if down_counter == 0:
             c.execute("UPDATE monitoring_device SET status=?, ping=? WHERE ip=?", ('down',1, ip))
+            print(ip)
         if int(down_counter) == 1:
             c.execute("UPDATE monitoring_device SET ping=? WHERE ip=?", (2, ip))
+            print(ip + 'afdasf')
         if int(down_counter) == 2:
             c.execute("UPDATE monitoring_device SET ping=?, last_seen=? WHERE ip=?", (3, datetime.datetime.now().strftime("%y-%m-%d %H:%M"), ip))
             error_message += ", " + ip
