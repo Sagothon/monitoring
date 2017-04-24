@@ -50,6 +50,6 @@ for ip in scan_result['scan']:
         if error_count != 0:
             error_email(error_message)
     else:
-        c.execute("UPDATE monitoring_device SET status=?, ping=? WHERE ip=?", ('up',0, ip))
+        c.execute("UPDATE monitoring_device SET status=?, ping=?, last_seen=? WHERE ip=?", ('up', 0, '-', ip))
 data_base.commit()
 data_base.close()
