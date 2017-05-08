@@ -29,9 +29,10 @@
             <h1>Monitoring</h1>
         </div>
 	<a href="/admin/logout/">LOG OUT</a>
-    <button>Click me!</button>
-        <form action="/" method="post">
-        <input type="submit" value="Submit" />
+    <form action="/" method="post">
+    
+        <button>Click me!</button>
+        <input type="submit" name="ping" value="Submit" />
         {% csrf_token %}
         {% render_table table %}
         </form>

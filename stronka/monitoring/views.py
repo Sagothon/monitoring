@@ -8,11 +8,12 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 import subprocess
 from .lib.discover import ubnt_discovery
+from .lib.ping import ping
 
 @login_required
 def dev_table(request):
-    if request.method == 'POST':
-        print(request.POST.getlist('cBox'))
+    if request.POST.get("ping"):
+        ping()
         return HttpResponseRedirect('/')
     else:
         table = DevicesTable(Device.objects.all())
