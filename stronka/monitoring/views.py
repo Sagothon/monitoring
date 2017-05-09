@@ -9,11 +9,12 @@ from django.contrib.auth.decorators import login_required
 import subprocess
 from .lib.discover import ubnt_discovery
 from .lib.ping import ping
+from .lib.update import update
 
 @login_required
 def dev_table(request):
-    if request.POST.get("ping"):
-        ping()
+    if request.POST.get("Update"):
+        update(request.POST.getlist('cBox[]'))
         return HttpResponseRedirect('/')
     else:
         table = DevicesTable(Device.objects.all())
