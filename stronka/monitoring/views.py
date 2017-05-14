@@ -16,6 +16,9 @@ def dev_table(request):
     if request.POST.get("Update"):
         update(request.POST.getlist('cBox[]'))
         return HttpResponseRedirect('/')
+    if request.POST.get("check"):
+        ping()
+        return HttpResponseRedirect('/')
     else:
         table = DevicesTable(Device.objects.all())
         RequestConfig(request).configure(table)

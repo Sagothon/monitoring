@@ -30,11 +30,14 @@
         </div>
 	<a href="/admin/logout/">LOG OUT</a>
     <form action="/" method="post">
-    
-        <button>Click me!</button>
+    <div>
+        <input type="submit" name="check" value="check" />
         <input type="submit" name="Update" value="Update" />
+    </div>
+    <div>
         {% csrf_token %}
         {% render_table table %}
+    </div>
         </form>
     </body>
 </html>
