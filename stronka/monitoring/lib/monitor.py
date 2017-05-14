@@ -2,6 +2,7 @@ from pssh.pssh_client import ParallelSSHClient
 from pssh.exceptions import AuthenticationException, \
   UnknownHostException, ConnectionErrorException
 import sqlite3
+import os
 from datetime import datetime, timedelta
 
 def monitor():
@@ -44,3 +45,7 @@ def monitor():
             c.execute("UPDATE monitoring_device SET error=? WHERE ip=?", (device['exception'], node))     
     data_base.commit()
     data_base.close()
+
+if __name__ == '__main__':
+    os.chdir('../../')
+    monitor()
