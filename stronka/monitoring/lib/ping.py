@@ -19,6 +19,7 @@ def error_email(message):
     s.quit()
 
 def ping():
+    print('siema')
     data_base = sqlite3.connect('db.sqlite3')
     c = data_base.cursor()
     c.execute('SELECT ip FROM monitoring_device')
