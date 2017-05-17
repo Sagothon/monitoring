@@ -26,3 +26,17 @@ class Device(models.Model):
 
     def __str__(self):
         return self.ip
+
+class Cron(models.Model):
+    monitor_minutes = models.IntegerField(null=True, blank=True)
+    ping_check = models.IntegerField(null=True, blank=True)
+    backup_days = models.IntegerField(null=True, blank=True)
+
+    def publish(self):
+        self.save()
+
+class Mail(models.Model):
+    mail_to = models.CharField(max_length = 100, null=True, blank=True)
+
+    def publish(self):
+        self.save()

@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django_tables2 import RequestConfig
 from .tables import DevicesTable
 from .forms import ConfigForm
+from .forms import CronForm, MailForm
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 import subprocess
@@ -37,3 +38,10 @@ def configuration(request):
         form = ConfigForm()
 
     return render(request, 'monitoring/config.html', {'form': form})
+
+@login_required
+def cron(request):
+    if request.method == 'POST':
+        cron_form = CronForm(request.POST)
+        if cron_form.is_valid():
+            #dokonczyc
