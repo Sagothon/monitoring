@@ -6,7 +6,7 @@ import os
 from datetime import datetime, timedelta
 
 def monitor():
-    
+
     data_base = sqlite3.connect('db.sqlite3')
     c = data_base.cursor()
     c.execute('SELECT ip, login, password, port FROM monitoring_device')
@@ -41,11 +41,11 @@ def monitor():
                             device['product'] = i.split('=')[1]
             c.execute("UPDATE monitoring_device SET dev_name=?, firmware=?, product=?, wireless_mode=?, signal=?, ccq=?, uptime=?, error=? WHERE ip=?", (device['dev_name'], device['firmware'], device['product'], device['wireless_mode'], device['signal'], device['ccq'], device['uptime'], device['exception'], node))
         else:
-            device['exception'] = 'failure'
+            device['exception'] = 'login failure'
             c.execute("UPDATE monitoring_device SET error=? WHERE ip=?", (device['exception'], node))     
     data_base.commit()
     data_base.close()
 
 if __name__ == '__main__':
-    os.chdir('../../')
+    os.chdir(os.path.dirname(__file__) + '/../../')
     monitor()

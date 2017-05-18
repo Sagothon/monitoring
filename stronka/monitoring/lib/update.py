@@ -11,7 +11,7 @@ def update(ip_to_update):
         c.execute("SELECT ip, login, password, port, firmware FROM monitoring_device WHERE ip=?", (ip,))
         config = c.fetchone()
         host_configurations[config[0]] = {'user': config[1], 'password': config[2], 'port': config[3], 'firmware': config[4]}
-    
+
     data_base.commit()
     print(host_configurations)
     #client = ParallelSSHClient(hosts=host_configurations.keys(), host_config=host_configurations, num_retries=1)

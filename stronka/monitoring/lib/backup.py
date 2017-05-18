@@ -1,11 +1,13 @@
 import subprocess
 import sqlite3
+import os
 
 def back_it_up():
     data_base = sqlite3.connect('db.sqlite3')
     c = data_base.cursor()
     c.execute('SELECT ip, login, password, port FROM monitoring_device')
     config = c.fetchall()
+    data_base.close()
 
     for ip in config:
         ip_add = ip[0]
@@ -20,3 +22,5 @@ def back_it_up():
         (output, err) = p.communicate()
         p.kill
 
+if __name__ == '__main__':
+    os.chdir(os.path.dirname(__file__) + '/../../')
