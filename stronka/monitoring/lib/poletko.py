@@ -3,11 +3,18 @@ from pssh.exceptions import AuthenticationException, \
   UnknownHostException, ConnectionErrorException
 import subprocess
 import sqlite3
+import os
+from crontab import CronTab
 
 def update(hosts_list):
     data_base = sqlite3.connect('../../db.sqlite3')
     c = data_base.cursor()
     c.execute('SELECT ip, login, password, port, firmware FROM monitoring_device')
+    
+    password = 0
+    port = 0
+    user  = 0
+    ip_add = 0
 
     config = c.fetchall()
     host_configurations = {}
@@ -20,4 +27,6 @@ def update(hosts_list):
     (output, err) = p.communicate()
     p.kill
 
-update('192.168.100.62')
+
+
+print(os.cwd())
