@@ -4,6 +4,7 @@ from pssh.exceptions import AuthenticationException, \
 import sqlite3
 import os
 from datetime import datetime, timedelta
+import time
 
 def monitor():
 
@@ -17,26 +18,29 @@ def monitor():
     client = ParallelSSHClient(hosts=host_configurations.keys(), host_config=host_configurations, num_retries=1)
     output = client.run_command('mca-status', stop_on_errors=False)
     for node in output:
-        device = {'dev_name':'', 'firmware':'', 'wireless_mode':'', 'signal':0, 'ccq':0, 'air_q':0, 'air_c':0, 'freq':0, 'uptime':0, 'product':'', 'exception':''}
+        device = {'dev_name':'', 'firmware':'', 'wireless_mode':'', 'signal':0, 'ccq':0, 'air_q':0, 'air_c':0, 'freq':0, 'uptime':'', 'product':'', 'exception':''}
         if str(output[node]['exception']) == 'None':
             device['exception'] = 'OK'
             for line in output[node]['stdout']:
                 if 'wlanOpmode' in line:
-                    device['wireless_mode'] = line.split('=')[1]
+                    if 'sta' in line.split[1]:
+                        device['wireless_mode'] = 'station'
+                    if 'ap' in line.split[1]:
+                        device['wireless_mode'] = 'access point'
                 if 'signal' in line:
                     device['signal'] = int(line.split('-')[1])
                 if 'ccq' in line:
                     device['ccq'] = int(float(line.split('=')[1])/10)
                 if 'uptime' in line:
-                    seconds = int(line.split('=')[1])
-                    device['uptime'] = int(line.split('=')[1])/86400
+                    secs = int(line.split('=')[1])
+                    device['uptime'] = time.strftime("%H:%M:%S", time.gmtime(secs))
                 if 'deviceName' in line:
                     line2 = line.split(',')
                     for i in line2:
                         if 'Name' in i:
                             device['dev_name'] = i.split('=')[1]
                         if 'firmware' in i:
-                            device['firmware'] = i.split('=')[1]
+                            device['firmware'] = i.split('=')[1][1:14]
                         if 'platform' in i:
                             device['product'] = i.split('=')[1]
             c.execute("UPDATE monitoring_device SET dev_name=?, firmware=?, product=?, wireless_mode=?, signal=?, ccq=?, uptime=?, error=? WHERE ip=?", (device['dev_name'], device['firmware'], device['product'], device['wireless_mode'], device['signal'], device['ccq'], device['uptime'], device['exception'], node))
@@ -47,5 +51,5 @@ def monitor():
     data_base.close()
 
 if __name__ == '__main__':
-    os.chdir(os.path.dirname(__file__) + '/../../')
+    os.chdir(os.path.dirname(os.path.abspath(__file__)) + '/../../')
     monitor()

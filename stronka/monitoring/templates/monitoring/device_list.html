@@ -8,6 +8,29 @@
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="{% static 'css/monitoring.css' %}">
         <link rel="stylesheet" href="{% static 'django_tables2/themes/paleblue/css/screen.css' %}" />
+
+        <style>
+            .link:link, .link:visited {
+
+                background-color: seagreen;
+                color: white;
+                padding: 14px 25px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+            }
+
+            .link:hover, .link:active {
+                background-color: green;
+            }
+
+            html {
+                text-align: center;
+            }
+
+
+        </style>
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
         <script>
 
@@ -28,7 +51,9 @@
         <div>
             <h1>Monitoring</h1>
         </div>
-	<a href="/admin/logout/">LOG OUT</a>
+    <a class="link" href="/config/">Scan</a>
+    <a class="link" href="/cron/">Cron Config</a>
+    <a class="link" href="/admin/logout/">LOG OUT</a>
     <form action="/" method="post">
     <div>
         <input type="submit" name="check" value="check" />
