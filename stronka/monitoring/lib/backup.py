@@ -23,4 +23,5 @@ def back_it_up():
         p.kill
 
 if __name__ == '__main__':
-    os.chdir(os.path.dirname(__file__) + '/../../')
+    os.chdir(os.path.dirname(os.path.abspath(__file__)) + '/../../')
+    back_it_up()

@@ -6,15 +6,41 @@
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="{% static 'css/monitoring.css' %}">
+<style>
+    #id_ip, #id_login, #id_password, #id_port {
+        padding: 5px;
+        vertical-align: bottom;
+    }
+
+    label[for='id_ip'] {
+        
+        padding-right: 33px;
+    }
+    label[for='id_login'] {
+       
+        padding-right: 3px;
+    }
+    label[for='id_port'] {
+        
+        padding-right: 45px;
+    }
+    input#id_ip {
+    }
+
+    </style>
+
 
     </head>
     <body>
         <div>
-            <h1>Configuration site</h1>
+            <h1>Podaj parametry skanowania</h1>
         </div>
 <form action="" method="post">
-{{ form }}
 {% csrf_token %}
+
+<ul class="contactList">
+       {{ form.as_p }}
+    </ul>
 <input type="submit" name="newsletter_sub" value="Scan" />
 </form>
     </body>
