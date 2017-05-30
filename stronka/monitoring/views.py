@@ -1,6 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
+from django.db import connection
 from crontab import CronTab
 from .models import Device
 from django.shortcuts import render
@@ -12,6 +13,7 @@ from .lib.discover import ubnt_discovery
 from .lib.ping import ping
 from .lib.update import update
 #from .lib.monitor import monitor
+from .lib.db_connector import siema
 import sqlite3
 import subprocess
 import os
@@ -24,9 +26,6 @@ def dev_table(request):
     if request.POST.get("check"):
         ping()
         return HttpResponseRedirect('/')
-    #if request.POST.get("monitor"):
-        #//monitor()
-     #   return HttpResponseRedirect('/')
     else:
         table = DevicesTable(Device.objects.all())
         RequestConfig(request).configure(table)

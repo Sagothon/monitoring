@@ -10,9 +10,15 @@
         <link rel="stylesheet" href="{% static 'django_tables2/themes/paleblue/css/screen.css' %}" />
 
         <style>
+          body {
+             background-color: #008fb3;
+          }
+          h1 {
+              color: white;
+          }
             .link:link, .link:visited {
 
-                background-color: seagreen;
+                background-color: #006680;
                 color: white;
                 padding: 14px 25px;
                 text-align: center;
@@ -21,13 +27,23 @@
             }
 
             .link:hover, .link:active {
-                background-color: green;
+                background-color: #003d4d;
             }
 
             html {
-                text-align: center;
+                text-align: left;
             }
 
+            input {
+                padding: 5px;
+                border: solid 5px #c9c9c9;
+                
+                transition: box-shadow 0.3s, border 0.3s;
+            }
+
+            input:focus {
+                border: solid 5px #969696;
+            }
 
         </style>
 
@@ -53,10 +69,11 @@
         </div>
     <a class="link" href="/config/">Scan</a>
     <a class="link" href="/cron/">Cron Config</a>
+    <a class="link" href="/admin/">Admin</a>
     <a class="link" href="/admin/logout/">LOG OUT</a>
     <form action="/" method="post">
     <div>
-        <input type="submit" name="check" value="check" />
+        <input type="submit" name="check" value="check status" />
         <input type="submit" name="Update" value="Update" />
     </div>
     <div>
