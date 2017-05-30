@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 import time
 
 def monitor():
-
+    
     data_base = sqlite3.connect('db.sqlite3')
     c = data_base.cursor()
     c.execute('SELECT ip, login, password, port FROM monitoring_device')
@@ -23,24 +23,29 @@ def monitor():
             device['exception'] = 'OK'
             for line in output[node]['stdout']:
                 if 'wlanOpmode' in line:
-                    if 'sta' in line.split[1]:
+                    if 'sta' in str(line.split('=')[1]):
                         device['wireless_mode'] = 'station'
-                    if 'ap' in line.split[1]:
+                    if 'ap' in str(line.split('=')[1]):
                         device['wireless_mode'] = 'access point'
                 if 'signal' in line:
                     device['signal'] = int(line.split('-')[1])
                 if 'ccq' in line:
                     device['ccq'] = int(float(line.split('=')[1])/10)
                 if 'uptime' in line:
-                    secs = int(line.split('=')[1])
-                    device['uptime'] = time.strftime("%H:%M:%S", time.gmtime(secs))
+                    seconds = int(line.split('=')[1])
+                    print(seconds)
+                    days, seconds = divmod(seconds, 24*60*60)
+                    hours, seconds = divmod(seconds, 60*60)
+                    minutes, seconds = divmod(seconds, 60)
+                    time = '%s d %s h %s m' % (days,hours,minutes)
+                    device['uptime'] = str(time)
                 if 'deviceName' in line:
                     line2 = line.split(',')
                     for i in line2:
                         if 'Name' in i:
                             device['dev_name'] = i.split('=')[1]
                         if 'firmware' in i:
-                            device['firmware'] = i.split('=')[1][1:14]
+                            device['firmware'] = i.split('=')[1][0:16]
                         if 'platform' in i:
                             device['product'] = i.split('=')[1]
             c.execute("UPDATE monitoring_device SET dev_name=?, firmware=?, product=?, wireless_mode=?, signal=?, ccq=?, uptime=?, error=? WHERE ip=?", (device['dev_name'], device['firmware'], device['product'], device['wireless_mode'], device['signal'], device['ccq'], device['uptime'], device['exception'], node))

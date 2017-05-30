@@ -7,15 +7,13 @@ import os
 import sys
 
 def error_email(message):
-    # Createf a text/plain message
     msg = MIMEText(message, 'plain')
 
     me = 'awaria@wer.pl'
-    you = ''
+    you = 'karol.piszczek@gmail.com'
     msg['Subject'] = 'Awaria'
     msg['From'] = me
     msg['To'] = you
-    return message
     s = smtplib.SMTP('localhost')
     s.sendmail(me, [you], msg.as_string())
     s.quit()
