@@ -7,10 +7,7 @@
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="{% static 'css/monitoring.css' %}">
 <style>
-    #id_ip, #id_login, #id_password, #id_port {
-        padding: 5px;
-        vertical-align: bottom;
-    }
+ 
 
     label[for='id_ip'] {
         
@@ -24,9 +21,16 @@
         
         padding-right: 45px;
     }
-    input#id_ip {
-    }
+    input {
+                padding: 5px;
+                border: solid 5px #c9c9c9;
+                
+                transition: box-shadow 0.3s, border 0.3s;
+            }
 
+            input:focus {
+                border: solid 5px #969696;
+            }
     </style>
 
 

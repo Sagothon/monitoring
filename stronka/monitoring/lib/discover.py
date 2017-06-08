@@ -26,4 +26,4 @@ def ubnt_discovery(data_from_form):
                 c.execute('insert into monitoring_device(ip, login, password, port, ping) values(?, ?, ?, ?, ?)', (result.group(0)[2:-2], login, password, int(port), 0))
 
     data_base.commit()
-
+    data_base.close()
