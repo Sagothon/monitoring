@@ -1,32 +1,43 @@
-from pssh.pssh_client import ParallelSSHClient
-from pssh.exceptions import AuthenticationException, \
-  UnknownHostException, ConnectionErrorException
-import subprocess
-import sqlite3
+SMTPserver = 'smtp.att.yahoo.com'
+sender =     'awaria1@yahoo.com'
+destination = 'awaria1@yahoo.com'
+
+USERNAME = "awaria1"
+PASSWORD = "12superawaria"
+
+# typical values for text_subtype are plain, html, xml
+text_subtype = 'plain'
+
+
+content="""\
+ 172.23.32.14 (EterNet_Bytomsko_SZ_2.4),
+"""
+
+subject="Uwaga awaria urządzeń!"
+
+import sys
 import os
-from crontab import CronTab
+import re
 
-def update(hosts_list):
-    data_base = sqlite3.connect('../../db.sqlite3')
-    c = data_base.cursor()
-    c.execute('SELECT ip, login, password, port, firmware FROM monitoring_device')
-    
-    password = 0
-    port = 0
-    user  = 0
-    ip_add = 0
+from smtplib import SMTP_SSL as SMTP       # this invokes the secure SMTP protocol (port 465, uses SSL)
+# from smtplib import SMTP                  # use this for standard SMTP protocol   (port 25, no encryption)
 
-    config = c.fetchall()
-    host_configurations = {}
-    for ip in config:
-        if ip[0] in hosts_list:
-            host_configurations[ip[0]] = {'user': ip[1], 'password': ip[2], 'port': ip[3], 'firmware': ip[4]}
-    print(host_configurations)
-    command = "sshpass -p %s scp -P %s -o ConnectTimeout=10 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -oKexAlgorithms=+diffie-hellman-group1-sha1 %s@%s:/tmp/system.cfg /home/karol/programy/monitoring/backup/%s" %(password, port, user, ip_add, ip_add)
-    p = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
-    (output, err) = p.communicate()
-    p.kill
+# old version
+# from email.MIMEText import MIMEText
+from email.mime.text import MIMEText
 
+try:
+    msg = MIMEText(content, text_subtype)
+    msg['Subject']=       subject
+    msg['From']   = sender # some SMTP servers will do this automatically, not all
 
+    conn = SMTP(SMTPserver)
+    conn.set_debuglevel(False)
+    conn.login(USERNAME, PASSWORD)
+    try:
+        conn.sendmail(sender, destination, msg.as_string())
+    finally:
+        conn.quit()
 
-print(os.cwd())
+except Exception:
+    sys.exit( "mail failed; %s" % str(exc) ) # give a error message

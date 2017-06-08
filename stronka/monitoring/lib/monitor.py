@@ -43,7 +43,10 @@ def monitor():
                     line2 = line.split(',')
                     for i in line2:
                         if 'Name' in i:
-                            device['dev_name'] = i.split('=')[1]
+                            if '==' in i:
+                                device['dev_name'] = i.split('=')[1] + '==' + i.split('==')[1]
+                            else:
+                                device['dev_name'] = i.split('=')[1]
                         if 'firmware' in i:
                             device['firmware'] = i.split('=')[1][0:16]
                         if 'platform' in i:

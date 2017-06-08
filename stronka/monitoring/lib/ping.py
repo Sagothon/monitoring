@@ -9,7 +9,7 @@ import sys
 def error_email(message):
     msg = MIMEText(message, 'plain')
 
-    me = 'awaria@wer.pl'
+    me = ''
     you = 'karol.piszczek@gmail.com'
     msg['Subject'] = 'Awaria'
     msg['From'] = me
@@ -21,6 +21,7 @@ def error_email(message):
 def ping():
     data_base = sqlite3.connect('db.sqlite3')
     c = data_base.cursor()
+    error_email('sss')
     c.execute('SELECT ip FROM monitoring_device')
     ip_list = c.fetchall()
     lista=''

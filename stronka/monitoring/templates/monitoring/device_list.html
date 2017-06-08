@@ -11,14 +11,14 @@
 
         <style>
           body {
-             background-color: #008fb3;
+             background-color: #417690;
           }
           h1 {
               color: white;
           }
             .link:link, .link:visited {
 
-                background-color: #006680;
+                background-color: #999999;
                 color: white;
                 padding: 14px 25px;
                 text-align: center;
@@ -43,6 +43,12 @@
 
             input:focus {
                 border: solid 5px #969696;
+            }
+            #tabelka {
+                padding-top: 5px;
+            }
+            #submity {
+                padding-top: 5px;
             }
 
         </style>
@@ -72,11 +78,12 @@
     <a class="link" href="/admin/">Admin</a>
     <a class="link" href="/admin/logout/">LOG OUT</a>
     <form action="/" method="post">
-    <div>
-        <input type="submit" name="check" value="check status" />
+    <div id="submity">
+        <input type="submit" name="check" value="Check status" />
+        <input type="submit" name="monitor" value="Monitor" />
         <input type="submit" name="Update" value="Update" />
     </div>
-    <div>
+    <div id="tabelka">
         {% csrf_token %}
         {% render_table table %}
     </div>
