@@ -27,6 +27,14 @@ class Device(models.Model):
     def __str__(self):
         return self.ip
 
+class Ping_history(models.Model):
+    device = models.ForeignKey(Device)
+    avg = models.CharField(max_length = 100, null=True, blank=True)
+    date = models.CharField(max_length = 100, null=True, blank=True)
+    
+    def publish(self):
+        self.save()
+
 class Cron(models.Model):
     monitor_minutes = models.IntegerField(null=True, blank=True)
     ping_check = models.IntegerField(null=True, blank=True)
