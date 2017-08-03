@@ -6,22 +6,22 @@ from email.mime.text import MIMEText
 import os
 import sys
 
-def error_email(message):
-    msg = MIMEText(message, 'plain')
-
-    me = ''
-    you = 'karol.piszczek@gmail.com'
-    msg['Subject'] = 'Awaria'
-    msg['From'] = me
-    msg['To'] = you
-    s = smtplib.SMTP('localhost')
-    s.sendmail(me, [you], msg.as_string())
-    s.quit()
+#def error_email(message):
+#    msg = MIMEText(message, 'plain')
+#
+#    me = ''
+#    you = 'karol.piszczek@gmail.com'
+#    msg['Subject'] = 'Awaria'
+#    msg['From'] = me
+#    msg['To'] = you
+#    s = smtplib.SMTP('localhost')
+#    s.sendmail(me, [you], msg.as_string())
+#    s.quit()
 
 def ping():
     data_base = sqlite3.connect('db.sqlite3')
     c = data_base.cursor()
-    error_email('sss')
+    #error_email('sss')
     c.execute('SELECT ip FROM monitoring_device')
     ip_list = c.fetchall()
     lista=''
@@ -48,8 +48,8 @@ def ping():
                 c.execute("UPDATE monitoring_device SET ping=?, last_seen=? WHERE ip=?", (3, datetime.datetime.now().strftime("%y-%m-%d %H:%M"), ip))
                 error_message += ", " + ip
                 error_count += 1
-            if error_count != 0:
-                error_email(error_message)
+            #if error_count != 0:
+            #    error_email(error_message)
         else:
             c.execute("UPDATE monitoring_device SET status=?, ping=?, last_seen=? WHERE ip=?", ('up', 0, '-', ip))
     data_base.commit()
