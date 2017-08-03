@@ -1,6 +1,10 @@
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.renderers import JSONRenderer
+from .serializers import Ping_historySerializer
+from .models import Ping_history
 from django.db import connection
 from crontab import CronTab
 from .models import Device
@@ -17,6 +21,32 @@ from .lib.db_connector import siema
 import sqlite3
 import subprocess
 import os
+
+
+
+@csrf_exempt
+def ping_history_list(request):
+    """
+    List all code snippets, or create a new snippet.
+    """
+    if request.method == 'GET':
+        history = Ping_history.objects.all()
+        serializer = Ping_historySerializer(history, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
+@csrf_exempt
+def ping_history_list_device(request, pk):
+    """
+    Retrieve, update or delete a code snippet.
+    """
+    try:
+        history = Ping_history.objects.all().filter(device=pk)
+    except Ping_history.DoesNotExist:
+        return HttpResponse(status=404)
+
+    if request.method == 'GET':
+        serializer = Ping_historySerializer(history, many=True)
+        return JsonResponse(serializer.data, safe=False)
 
 @login_required
 def dev_table(request):
