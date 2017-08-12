@@ -52,21 +52,60 @@
             }
 
         </style>
-
+        <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+        <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
         <script>
 
         $(document).ready(function(){
-            $("button").click(function(){
-                var checked_ip = new Array();
-
-                $('input[name="cBox[]"]:checked').each(function() {
-                checked_ip.push(this.value);
-                });
-                alert(checked_ip);
-                });   
+            $.getJSON('http://127.0.0.1:8000/ping_history_list/50/', function(result){
+                //alert(result[1].avg);
+            });
         });
-        </script>
+</script>
+
+<script>
+$(document).ready(function(){
+
+    $(".ip").hover(function(){
+
+        alert($(this).prev().text());
+
+    });
+    $(".id").hide();
+        });
+</script>
+
+<script type="text/javascript">
+window.onload = function () {
+
+//Better to construct options first and then pass it as a parameter
+	var options = {
+		title: {
+			text: "Column Chart using jQuery Plugin"
+		},
+                animationEnabled: true,
+		data: [
+		{
+			type: "column", //change it to line, area, bar, pie, etc
+			dataPoints: [
+				{ x: 10, y: 10 },
+				{ x: 20, y: 11 },
+				{ x: 30, y: 14 },
+				{ x: 40, y: 16 },
+				{ x: 50, y: 19 },
+				{ x: 60, y: 15 },
+				{ x: 70, y: 12 },
+				{ x: 80, y: 10 }
+			]
+		}
+		]
+	};
+
+	$("#chartContainer").CanvasJSChart(options);
+
+}
+</script>
 
     </head>
     <body>
@@ -80,13 +119,14 @@
     <form action="/" method="post">
     <div id="submity">
         <input type="submit" name="check" value="Check status" />
-        <input type="submit" name="monitor" value="Monitor" />
-        <input type="submit" name="Update" value="Update" />
+        <input type="submit" name="monitor" value="Monitor" /> 
+        <input type="submit" name="Update" value="Update" /> 
     </div>
     <div id="tabelka">
         {% csrf_token %}
         {% render_table table %}
     </div>
         </form>
+<div id="chartContainer" style="height: 300px; width: 100%;">kdsgfidhgfid</div>
     </body>
 </html>
