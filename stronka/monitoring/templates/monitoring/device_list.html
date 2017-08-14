@@ -52,60 +52,72 @@
             }
 
         </style>
-        <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
-        <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-        <script>
 
-        $(document).ready(function(){
-            $.getJSON('http://127.0.0.1:8000/ping_history_list/50/', function(result){
-                //alert(result[1].avg);
-            });
-        });
-</script>
 
 <script>
+
+var jsonik = [];
+var counter;
+
+var series1 = { //dataSeries - first quarter
+                type: "column",
+                name: "Latency",
+                showInLegend: true
+            };
+
 $(document).ready(function(){
 
     $(".ip").hover(function(){
 
-        alert($(this).prev().text());
+        //alert($(this).prev().text());
+        $.getJSON('http://127.0.0.1:8000/ping_history_list/50/', {
+    tags: "avg",
+    tagmode: "any",
+    format: "json"
+  }, function(result){
+      counter = result.length;
+      jsonik = result;
+            });
+
+            var color = CanvasJS.addColorSet("greenShades",
+                [//colorSet Array
+
+                "#2F4F4F",               
+                ]);
+
+            var chart = new CanvasJS.Chart("chartContainer");
+
+        
+            chart.options.axisY = { suffix: " ms" };
+            chart.options.title = { text: "Ping" };
+        
+            chart.options.data = [];
+            chart.options.data.push(series1);
+
+            series1.dataPoints = [
+                    { label: jsonik[counter-10].date, y: parseFloat(jsonik[counter-10].avg) },
+                    { label: jsonik[counter-9].date, y: parseFloat(jsonik[counter-9].avg) },
+                    { label: jsonik[counter-8].date, y: parseFloat(jsonik[counter-8].avg) },
+                    { label: jsonik[counter-7].date, y: parseFloat(jsonik[counter-7].avg) },
+                    { label: jsonik[counter-6].date, y: parseFloat(jsonik[counter-6].avg) },
+                    { label: jsonik[counter-5].date, y: parseFloat(jsonik[counter-5].avg) },
+                    { label: jsonik[counter-4].date, y: parseFloat(jsonik[counter-4].avg) },
+                    { label: jsonik[counter-3].date, y: parseFloat(jsonik[counter-3].avg) },
+                    { label: jsonik[counter-2].date, y: parseFloat(jsonik[counter-2].avg) },
+                    { label: jsonik[counter-1].date, y: parseFloat(jsonik[counter-1].avg) }
+            ];
+        
+            chart.render();
 
     });
     $(".id").hide();
         });
-</script>
 
-<script type="text/javascript">
-window.onload = function () {
+        
+    </script>
 
-//Better to construct options first and then pass it as a parameter
-	var options = {
-		title: {
-			text: "Column Chart using jQuery Plugin"
-		},
-                animationEnabled: true,
-		data: [
-		{
-			type: "column", //change it to line, area, bar, pie, etc
-			dataPoints: [
-				{ x: 10, y: 10 },
-				{ x: 20, y: 11 },
-				{ x: 30, y: 14 },
-				{ x: 40, y: 16 },
-				{ x: 50, y: 19 },
-				{ x: 60, y: 15 },
-				{ x: 70, y: 12 },
-				{ x: 80, y: 10 }
-			]
-		}
-		]
-	};
-
-	$("#chartContainer").CanvasJSChart(options);
-
-}
-</script>
 
     </head>
     <body>
@@ -127,6 +139,6 @@ window.onload = function () {
         {% render_table table %}
     </div>
         </form>
-<div id="chartContainer" style="height: 300px; width: 100%;">kdsgfidhgfid</div>
+<div id="chartContainer" style="height: 300px; width: 50%;"></div>
     </body>
 </html>
