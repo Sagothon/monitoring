@@ -1,6 +1,16 @@
-This is monitoring program for Ubiquiti devices (hopefully for more in the future)
+ARCHIVED (2026) - no longer maintained.
 
-Must have python packages:
-	parallel-ssh
-	nmap
-	django
+This was a 2017 monitoring program for Ubiquiti airMAX devices
+(discovery, SSH status polling, ping checks, config backups).
+It targets Django 1.10 and is kept for reference only.
+
+Known issues, not fixed: shell command injection in lib/discover.py
+and lib/backup.py, plaintext device credentials, SSH host key
+checking disabled. Do not deploy it.
+
+Configuration (if you run it anyway): set DJANGO_SECRET_KEY,
+optionally DJANGO_DEBUG=1 and DJANGO_ALLOWED_HOSTS.
+
+Firmware images were removed; get them from Ubiquiti.
+
+Original dependencies: parallel-ssh, python-nmap, django
